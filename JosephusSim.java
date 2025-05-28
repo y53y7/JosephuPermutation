@@ -13,21 +13,20 @@ public class JosephusSim {
          Scanner file = new Scanner(new File(fileName));
          circle = new PersonNode(file.next());
          track = circle;
+         size = 1;
          while(file.hasNextLine()) {
             track.next = new PersonNode(file.next());
             track = track.next;
             size++;
          }
          
-         Random rand = new Random();
-         eliminationCount = rand.nextInt(7) + 1;
-         
          // make the ring circular by attaching last node's next to front
-         track = circle;
-         
-         // remember the last node as the one in front of the next to get eliminated
+         track.next = circle;
          
          // generate, print, and save the random elimination count
+         Random rand = new Random();
+         eliminationCount = rand.nextInt(7) + 1;
+         System.out.print("Elimination count is " + eliminationCount);
 
       } catch(FileNotFoundException e) {
          System.out.println("Something went wrong with " + fileName);
@@ -42,21 +41,24 @@ public class JosephusSim {
       // count to the elimination count
       track = null;
       for(int i = 0; i < eliminationCount; i++) {
-         track = circle.next;
+         track = circle;
+         circle = circle.next;
       }
       
       // print who will be eliminated
-      System.out.print(track + " has been eliminated.");
+      System.out.print(circle.name + " has been eliminated.");
       
       // eliminate the person and update "front" of the circle and size
-      this.circle = track;                           //remove the current node
-      this.circle = null;
-      track = circle.next;      //move the front of the previous node
+                          //remove the current node
+      track.next = circle.next;
+      circle = track.next;
+      size--;
 
    }
    
    public boolean isOver() {
       // check if there's only one person left in the circle
+      if(size == 1) { return true; }
       return false;
    }
    
