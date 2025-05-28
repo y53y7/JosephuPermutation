@@ -19,6 +19,9 @@ public class JosephusSim {
             size++;
          }
          
+         Random rand = new Random();
+         eliminationCount = rand.nextInt(7) + 1;
+         
          // make the ring circular by attaching last node's next to front
          track = circle;
          
@@ -37,16 +40,18 @@ public class JosephusSim {
    
    public void eliminate() {
       // count to the elimination count
-      Random rand = new Random();
-      eliminationCount = rand.nextInt(7) + 1;
-      String cur = 0;
+      track = null;
       for(int i = 0; i < eliminationCount; i++) {
-         
+         track = circle.next;
       }
       
       // print who will be eliminated
+      System.out.print(track + " has been eliminated.");
       
       // eliminate the person and update "front" of the circle and size
+      this.circle = track;                           //remove the current node
+      this.circle = null;
+      track = circle.next;      //move the front of the previous node
 
    }
    
